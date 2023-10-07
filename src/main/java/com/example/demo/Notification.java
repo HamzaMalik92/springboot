@@ -3,9 +3,23 @@ package com.example.demo;
 public class Notification {
     String title;
 
-    public Notification(String title, String description) {
+
+
+    boolean type;
+    String description;
+
+
+    public Notification(String title, boolean type, String description) {
         this.title = title;
+        this.type = type;
         this.description = description;
+    }
+
+    public void setType(boolean type) {
+        this.type = type;
+    }
+    public boolean getType() {
+        return type;
     }
 
     public String getTitle() {
@@ -24,5 +38,4 @@ public class Notification {
         this.description = description;
     }
 
-    String description;
 }
