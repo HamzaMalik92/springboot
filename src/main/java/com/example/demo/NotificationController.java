@@ -22,7 +22,7 @@ public class NotificationController {
                 "    \"data\": {\n" +
                 "        \"title\": \"" + notification.getTitle() + "\",\n" +
                 "        \"description\": \"" + notification.getDescription() + "\",\n" +
-                "        \"type\":"+ notification.getType() +"\n" +
+                "        \"description\": \"" + notification.getType() + "\",\n" +
                 "     }\n" +
                 "}";
 
