@@ -2,24 +2,22 @@ package com.example.demo;
 
 public class Notification {
     String title;
-
-
-
-    boolean type;
+    String type;
     String description;
 
 
-    public Notification(String title, boolean type, String description) {
+    public Notification(String title, String type, String description) {
         this.title = title;
         this.type = type;
         this.description = description;
     }
 
-    public void setType(boolean type) {
-        this.type = type;
-    }
-    public boolean getType() {
+    public String getType() {
         return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getTitle() {
