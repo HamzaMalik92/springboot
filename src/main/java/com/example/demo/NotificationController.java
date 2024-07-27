@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import jakarta.validation.Valid;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,12 +10,16 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class NotificationController {
     @PostMapping("sendNotification")
-    public HttpStatusCode sendNotification(@RequestBody Notification notification) {
+    public ResponseEntity<?> sendNotification(@Valid @RequestBody Notification notification) {
+
+        if(notification.getVersion()!=null&&!notification.getVersion().isEmpty()&&notification.getVersion().length()!=3){
+            return ResponseEntity.ok().body("Invalid app version");
+        }
+
         // FCM server endpoint URL
         String url = "https://fcm.googleapis.com/fcm/send";
-
         // FCM request data
-        String to = "/topics/app";
+        String to = "/topics/"+notification.getTopic();
 
         // Construct the request body using Notification object
         String requestBody = "{\n" +
@@ -22,7 +27,8 @@ public class NotificationController {
                 "    \"data\": {\n" +
                 "        \"title\": \"" + notification.getTitle() + "\",\n" +
                 "        \"description\": \"" + notification.getDescription() + "\",\n" +
-                "        \"type\": \"" + notification.getType() + "\",\n" +
+                "        \"version\": \"" + notification.getVersion() + "\",\n" +
+                "        \"type\": \"" + notification.getType().name() + "\",\n" +
                 "     }\n" +
                 "}";
 
@@ -30,7 +36,7 @@ public class NotificationController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "key=AAAA7PPMAfM:APA91bETH64DmjvloDsSxsNqFSRFr4f791pUUWBsQFT8E_fhDpQBDld63-lnMDf8fjResKiq0V_VMoOOmCHMemuOTbOvEOCYu1UQiR9ucCpd0h9r_z6xZOqscuOumNm9WJEoRI7g6lQw");
+        headers.set("Authorization", "key=AAAAUfOZKes:APA91bE_5j8k0UvN7gVZb-bdQONtCnXD95zqP875bDt9vhpq5z6K7bbiM_aiYmyhojIC_itVIff9v-ZXn94Ib94xIjGWHlVAP6hbsjE1LMavYWQFxGobMPYSUuJiUKzKpL-TnuxiRfIQ");
 
         // Create the request entity
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
@@ -45,6 +51,6 @@ public class NotificationController {
         System.out.println("Response: " + response.getStatusCode());
         System.out.println("Response Body: " + response.getBody());
 
-        return response.getStatusCode();
+        return ResponseEntity.ok().body(notification);
     }
 }
