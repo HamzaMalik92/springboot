@@ -10,14 +10,14 @@ import lombok.Data;
 
 public class Notification {
     @NotBlank
-    @Size(min = 5)
+    @Size(min = 5, max = 20)
     String title;
 
     Type type;
 
 
     @NotBlank
-    @Size(min = 10)
+    @Size(min = 10, max = 100)
     String description;
     String actionType="";
     String actionData="";
