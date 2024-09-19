@@ -9,14 +9,14 @@ import lombok.Data;
 @AllArgsConstructor
 
 public class Notification {
-    @NotBlank
-    @Size(min = 5, max = 20)
+    @NotBlank(message = "Title must not be blank")
+    @Size(min = 5, max = 20, message = "Title must be between 5 and 20 characters")
     String title;
 
     Type type;
 
 
-    @NotBlank
+    @NotBlank(message = "Description must not be blank")
     @Size(min = 10, max = 100)
     String description;
     String actionType="";
