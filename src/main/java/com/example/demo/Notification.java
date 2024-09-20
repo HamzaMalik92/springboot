@@ -21,6 +21,7 @@ public class Notification {
     String description;
     String actionType="";
     String actionData="";
+    @ValidAppVersion(message = "You have entered invalid app version!")
     String version = "";  // Default value set to an empty string
 
     @NotBlank

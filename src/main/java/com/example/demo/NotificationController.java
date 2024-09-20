@@ -24,10 +24,6 @@ public class NotificationController {
     @PostMapping("all")
     public ResponseEntity<?> toAll(@Valid @RequestBody Notification notification) {
 
-        if(notification.getVersion()!=null&&!notification.getVersion().isEmpty()&&notification.getVersion().length()!=3){
-            return ResponseEntity.badRequest().body("Invalid app version");
-        }
-
         String requestBody = getRequestBody("", notification);
 
         ResponseEntity<String> stringResponseEntity = SendToFCM(requestBody);
@@ -43,10 +39,6 @@ public class NotificationController {
     @PostMapping("test/all")
     public ResponseEntity<?> toTestAll(@Valid @RequestBody Notification notification) {
 
-        if(notification.getVersion()!=null&&!notification.getVersion().isEmpty()&&notification.getVersion().length()!=3){
-            return ResponseEntity.badRequest().body("Invalid app version");
-        }
-
         // Return the map as the response
         return ResponseEntity.ok().body(notification);
     }
@@ -55,9 +47,6 @@ public class NotificationController {
     @PostMapping("one/{uid}")
     public ResponseEntity<?> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification) {
 
-        if (notification.getVersion() != null && !notification.getVersion().isEmpty() && notification.getVersion().length() != 3) {
-            return ResponseEntity.badRequest().body("Invalid app version");
-        }
         if (uid == null || uid.length() != 36) {
             return ResponseEntity.badRequest().body("Invalid uId");
         }
