@@ -40,6 +40,17 @@ public class NotificationController {
         return ResponseEntity.ok().body(responseMap);
     }
 
+    @PostMapping("test/all")
+    public ResponseEntity<?> toTestAll(@Valid @RequestBody Notification notification) {
+
+        if(notification.getVersion()!=null&&!notification.getVersion().isEmpty()&&notification.getVersion().length()!=3){
+            return ResponseEntity.badRequest().body("Invalid app version");
+        }
+
+        // Return the map as the response
+        return ResponseEntity.ok().body(notification);
+    }
+
 
     @PostMapping("one/{uid}")
     public ResponseEntity<?> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification) {
