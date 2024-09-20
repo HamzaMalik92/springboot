@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.fcm.validator;
 
 import jakarta.validation.ConstraintValidator; // Import for creating a custom validator
 import jakarta.validation.ConstraintValidatorContext; // Import for context during validation

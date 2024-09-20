@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.fcm.controller;
 
+import com.example.demo.fcm.dto.Notification;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.ServiceAccountCredentials;

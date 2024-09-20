@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.fcm.dto;
 
+import com.example.demo.fcm.emun.Type;
+import com.example.demo.fcm.validator.ValidAppVersion;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
