@@ -14,13 +14,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.demo.fcm.constants.Constants.*;
+
 @RestController()
 @RequestMapping("/sendNotification")
 public class NotificationController {
-
-    private static final String FCM_URL_TEMPLATE = "https://fcm.googleapis.com/v1/projects/%s/messages:send";
-    private static final String PROJECT_NAME = "expense-tracker-f1330";  // Replace with your project name
-    private static final String SERVICE_ACCOUNT_FILE_PATH = "src/main/resources/assets/json/google-services.json";
 
     @PostMapping("all")
     public ResponseEntity<?> toAll(@Valid @RequestBody Notification notification) {
@@ -84,7 +82,7 @@ public class NotificationController {
 
     private ResponseEntity<String> SendToFCM(String requestBody) {
         // FCM server endpoint URL
-        String url = String.format(FCM_URL_TEMPLATE, PROJECT_NAME);
+        String url = String.format(FCM_URL_TEMPLATE, FCM_PROJECT_NAME);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -107,7 +105,7 @@ public class NotificationController {
     }
 
     private String getAccessToken() {
-        try (FileInputStream serviceAccountStream = new FileInputStream(SERVICE_ACCOUNT_FILE_PATH)) {
+        try (FileInputStream serviceAccountStream = new FileInputStream(FCM_SERVICE_JSON_PATH)) {
             GoogleCredentials credentials = ServiceAccountCredentials.fromStream(serviceAccountStream);
             credentials = credentials.createScoped("https://www.googleapis.com/auth/cloud-platform");
             credentials.refreshIfExpired();
