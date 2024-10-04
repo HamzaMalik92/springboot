@@ -4,6 +4,7 @@ import com.example.demo.fcm.dto.Notification;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.ServiceAccountCredentials;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ import static com.example.demo.fcm.constants.Constants.*;
 public class NotificationController {
 
     @PostMapping("all")
-    public ResponseEntity<?> toAll(@Valid @RequestBody Notification notification) {
+    public ResponseEntity<?> toAll(@Valid @RequestBody Notification notification, HttpSession session) {
 
         String requestBody = getRequestBody("", notification);
 
@@ -36,7 +37,7 @@ public class NotificationController {
     }
 
     @PostMapping("test/all")
-    public ResponseEntity<?> toTestAll(@Valid @RequestBody Notification notification) {
+    public ResponseEntity<?> toTestAll(@Valid @RequestBody Notification notification, HttpSession session) {
 
         // Return the map as the response
         return ResponseEntity.ok().body(notification);
@@ -44,7 +45,7 @@ public class NotificationController {
 
 
     @PostMapping("one/{uid}")
-    public ResponseEntity<?> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification) {
+    public ResponseEntity<?> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification, HttpSession session) {
 
         if (uid == null || uid.length() != 36) {
             return ResponseEntity.badRequest().body("Invalid uId");
