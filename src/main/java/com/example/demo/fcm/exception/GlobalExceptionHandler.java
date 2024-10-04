@@ -22,6 +22,13 @@ public class GlobalExceptionHandler {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
+
+//            Cast the error to FieldError and get the rejected value
+            Object rejectedValue = ((FieldError) error).getRejectedValue();
+            int fieldLength = rejectedValue != null ? String.valueOf(rejectedValue).length() : 0;
+
+            errors.put(fieldName, errorMessage);
+            errors.put(fieldName + "'s length", String.valueOf(fieldLength)); // Put the length of the field's value        });
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
