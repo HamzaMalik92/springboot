@@ -7,6 +7,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -32,7 +33,7 @@ public class NotificationService {
         String requestBody = getRequestBody(uid, notification);
         return new NotificationResponse(notification.toString(), (HttpStatus) sendToFCM(requestBody).getStatusCode());
     }
-
+    @Cacheable(value = "notificationCache", key = "#notification.title")
     public NotificationResponse testNotification(Notification notification) {
         // For testing purposes, simply return the notification object
         return new NotificationResponse(notification.toString(),HttpStatus.ACCEPTED);
