@@ -18,19 +18,19 @@ public class NotificationController {
     @PostMapping("all")
     public ResponseEntity<?> toAll(@Valid @RequestBody Notification notification, HttpSession session) {
         NotificationResponse notificationResponse = notificationService.sendToAll(notification);
-        return new ResponseEntity<>(notificationResponse.getBody(), notificationResponse.getStatus());
+        return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
     }
 
     @PostMapping("one/{uid}")
     public ResponseEntity<?> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification, HttpSession session) {
         NotificationResponse notificationResponse = notificationService.sendToOne(uid, notification);
-        return new ResponseEntity<>(notificationResponse.getBody(), notificationResponse.getStatus());
+        return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
     }
 
     // Test API - Now delegates to the service layer
     @PostMapping("test/all")
     public ResponseEntity<?> toTestAll(@Valid @RequestBody Notification notification) {
         NotificationResponse notificationResponse = notificationService.testNotification(notification);
-        return new ResponseEntity<>(notificationResponse.getBody(), notificationResponse.getStatus());
+        return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
     }
 }
