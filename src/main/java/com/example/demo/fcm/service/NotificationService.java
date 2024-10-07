@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.client.RestTemplate;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import static com.example.demo.fcm.constants.Constants.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class NotificationService {
@@ -27,10 +29,10 @@ public class NotificationService {
 
     public NotificationResponse sendToOne(String uid, Notification notification) {
         if (uid == null || uid.length() != 36) {
-            return new NotificationResponse("Invalid uId", HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Invalid Uid: UID must be 36 characters long.");
         }
 
-        String requestBody = getRequestBody(uid, notification);
+        String requestBody = "getRequestBody(uid, notification)";
         return new NotificationResponse(notification.toString(), (HttpStatus) sendToFCM(requestBody).getStatusCode());
     }
     @Cacheable(value = "notificationCache", key = "#notification.title")

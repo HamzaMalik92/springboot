@@ -14,11 +14,14 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({IllegalArgumentException.class,MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(Exception ex) {
+        MethodArgumentNotValidException methodArgumentNotValidException;
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        if(ex instanceof MethodArgumentNotValidException){
+            methodArgumentNotValidException= (MethodArgumentNotValidException) ex;
+            methodArgumentNotValidException.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
@@ -30,6 +33,9 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
             errors.put(fieldName + "'s length", String.valueOf(fieldLength)); // Put the length of the field's value        });
         });
+        }else{
+            errors.put("error", ex.getMessage());
+        }
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
