@@ -21,14 +21,14 @@ public class NotificationController {
     private NotificationService notificationService;
 
     @PostMapping("all")
-    public ResponseEntity<?> toAll(@Valid @RequestBody Notification notification, HttpSession session) {
+    public ResponseEntity<String> toAll(@Valid @RequestBody Notification notification, HttpSession session) {
         logger.info("Sending notification to all: {}", notification);
         NotificationResponse notificationResponse = notificationService.sendToAll(notification);
         return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
     }
 
     @PostMapping("one/{uid}")
-    public ResponseEntity<?> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification, HttpSession session) {
+    public ResponseEntity<String> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification, HttpSession session) {
         logger.info("Sending notification to user {}: {}", uid, notification);
         NotificationResponse notificationResponse = notificationService.sendToOne(uid, notification);
         return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
@@ -36,7 +36,7 @@ public class NotificationController {
 
     // Test API - Now delegates to the service layer
     @PostMapping("test/all")
-    public ResponseEntity<?> toTestAll(@Valid @RequestBody Notification notification) {
+    public ResponseEntity<String> toTestAll(@Valid @RequestBody Notification notification) {
         logger.info("Testing notification for all: {}", notification);
         NotificationResponse notificationResponse = notificationService.testNotification(notification);
         return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
