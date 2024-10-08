@@ -37,7 +37,7 @@ public class NotificationController {
     // Test API - Now delegates to the service layer
     @PostMapping("test/all")
     public ResponseEntity<String> toTestAll(@Valid @RequestBody Notification notification) {
-        logger.info("Testing notification for all: {}", notification);
+        logger.warn("Testing notification for all: {}", notification);
         NotificationResponse notificationResponse = notificationService.testNotification(notification);
         return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
     }
