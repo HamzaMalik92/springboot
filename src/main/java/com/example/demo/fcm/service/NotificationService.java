@@ -1,25 +1,20 @@
 package com.example.demo.fcm.service;
 
-import com.example.demo.fcm.controller.NotificationController;
 import com.example.demo.fcm.dto.Notification;
 import com.example.demo.fcm.dto.NotificationResponse;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
-import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.client.RestTemplate;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import static com.example.demo.fcm.constants.Constants.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class NotificationService {

@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +16,11 @@ public class NotificationController {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
 
-    @Autowired
-    private NotificationService notificationService;
+    public NotificationController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
+    private final NotificationService notificationService;
 
     @PostMapping("all")
     public ResponseEntity<String> toAll(@Valid @RequestBody Notification notification, HttpSession session) {

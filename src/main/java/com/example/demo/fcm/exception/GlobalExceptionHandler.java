@@ -17,11 +17,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({IllegalArgumentException.class,MethodArgumentNotValidException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(Exception ex) {
-        MethodArgumentNotValidException methodArgumentNotValidException;
         Map<String, String> errors = new HashMap<>();
-        if(ex instanceof MethodArgumentNotValidException){
-            methodArgumentNotValidException= (MethodArgumentNotValidException) ex;
-            methodArgumentNotValidException.getBindingResult().getAllErrors().forEach((error) -> {
+        if(ex instanceof MethodArgumentNotValidException methodArgumentNotValidException){
+            methodArgumentNotValidException.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
@@ -31,7 +29,7 @@ public class GlobalExceptionHandler {
             int fieldLength = rejectedValue != null ? String.valueOf(rejectedValue).length() : 0;
 
             errors.put(fieldName, errorMessage);
-            errors.put(fieldName + "'s length", String.valueOf(fieldLength)); // Put the length of the field's value        });
+            errors.put(fieldName + "'s length", String.valueOf(fieldLength));
         });
         }else{
             errors.put("error", ex.getMessage());
