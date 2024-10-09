@@ -32,7 +32,7 @@ public class NotificationService {
             throw new IllegalArgumentException("Invalid Uid: UID must be 36 characters long.");
         }
 
-        String requestBody = "getRequestBody(uid, notification)";
+        String requestBody = getRequestBody(uid, notification);
         return new NotificationResponse(notification.toString(), (HttpStatus) sendToFCM(requestBody).getStatusCode());
     }
     @Cacheable(value = "notificationCache", key = "#notification.title")
