@@ -1,8 +1,5 @@
 package com.example.demo.fcm.constants;
 
-import com.example.demo.fcm.exception.UtilityClassInitiateException;
-import lombok.experimental.UtilityClass;
-
 public final class Constants {
 //    Utility classes should not have public constructors - make private instead
     private Constants() {}
