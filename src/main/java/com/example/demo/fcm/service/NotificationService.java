@@ -1,11 +1,14 @@
 package com.example.demo.fcm.service;
 
+import com.example.demo.fcm.controller.NotificationController;
 import com.example.demo.fcm.dto.Notification;
 import com.example.demo.fcm.dto.NotificationResponse;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import lombok.Getter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
@@ -20,6 +23,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class NotificationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
 
     public NotificationResponse sendToAll(Notification notification) {
         String requestBody = getRequestBody("", notification);
@@ -78,8 +83,8 @@ public class NotificationService {
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 
         // Print response
-        System.out.println("Response: " + response.getStatusCode());
-        System.out.println("Response Body: " + response.getBody());
+        logger.info("Response: {}" , response.getStatusCode());
+        logger.info("Response Body: {}" , response.getBody());
 
         return response;
     }
