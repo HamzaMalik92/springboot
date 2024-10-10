@@ -38,7 +38,7 @@ public class NotificationService {
     @Cacheable(value = "notificationCache", key = "#notification.title")
     public NotificationResponse testNotification(Notification notification) {
         // For testing purposes, simply return the notification object
-        return new NotificationResponse(notification.toString(),HttpStatus.ACCEPTED);
+        return NotificationResponse.builder().body(notification.toString()).status(HttpStatus.ACCEPTED).build();
     }
 
     // Construct the request body using Notification object
