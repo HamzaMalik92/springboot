@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 
-// Custom response class to encapsulate response data
+// Custom response record to encapsulate response data
 @Builder
 public record NotificationResponse(String body, HttpStatus status) implements Serializable {}
