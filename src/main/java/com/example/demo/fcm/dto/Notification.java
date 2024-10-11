@@ -9,8 +9,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-
-public class Notification {
+public final class Notification {
     @NotBlank(message = "Title must not be blank")
     @Size(min = 5, max = 20, message = "Title must be between 5 and 20 characters")
     String title;
