@@ -2,11 +2,13 @@ package com.example.demo.fcm.service;
 
 import com.example.demo.fcm.dto.Notification;
 import com.example.demo.fcm.dto.NotificationResponse;
+import com.example.demo.fcm.repo.NotificationRepo;
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import static com.example.demo.fcm.constants.Constants.*;
 public class NotificationService {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
+    @Autowired
+    NotificationRepo notificationRepo;
 
     public NotificationResponse sendToAll(Notification notification) {
         String requestBody = getRequestBody("", notification);
@@ -35,8 +39,9 @@ public class NotificationService {
         String requestBody = getRequestBody(uid, notification);
         return new NotificationResponse(notification.toString(), (HttpStatus) sendToFCM(requestBody).getStatusCode());
     }
-    @Cacheable(value = "notificationCache", key = "#notification.title")
+    @Cacheable(value = "notificationCache", key = "#notification.id")
     public NotificationResponse testNotification(Notification notification) {
+        notificationRepo.save(notification);
         // For testing purposes, simply return the notification object
         return NotificationResponse.builder().body(notification.toString()).status(HttpStatus.ACCEPTED).build();
     }
