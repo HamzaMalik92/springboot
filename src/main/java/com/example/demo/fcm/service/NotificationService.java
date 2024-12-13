@@ -25,6 +25,9 @@ public class NotificationService {
     @Autowired
     NotificationRepo notificationRepo;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     public NotificationResponse sendToAll(Notification notification) {
         String requestBody = getRequestBody("", notification);
         return new NotificationResponse(notification.toString(), (HttpStatus) sendToFCM(requestBody).getStatusCode());
@@ -75,9 +78,6 @@ public class NotificationService {
 
         // Create the request entity
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-
-        // Create RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
 
         // Send POST request
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
