@@ -12,7 +12,7 @@ import java.security.PublicKey;
 public class AppConfig {
 
     @Bean
-    public RestTemplate restTemplate(Notification notification) {
+    public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
