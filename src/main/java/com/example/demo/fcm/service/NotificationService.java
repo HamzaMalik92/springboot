@@ -30,7 +30,7 @@ public class NotificationService {
 
     public NotificationResponse sendToAll(Notification notification) {
         String requestBody = getRequestBody("", notification);
-        return new NotificationResponse(notification.toString(), (HttpStatus) sendToFCM(requestBody).getStatusCode());
+        return new NotificationResponse(notification, (HttpStatus) sendToFCM(requestBody).getStatusCode());
 
     }
 
@@ -40,13 +40,13 @@ public class NotificationService {
         }
 
         String requestBody = getRequestBody(uid, notification);
-        return new NotificationResponse(notification.toString(), (HttpStatus) sendToFCM(requestBody).getStatusCode());
+        return new NotificationResponse(notification, (HttpStatus) sendToFCM(requestBody).getStatusCode());
     }
     @Cacheable(value = "notificationCache", key = "#notification.id")
     public NotificationResponse testNotification(Notification notification) {
         notificationRepo.save(notification);
         // For testing purposes, simply return the notification object
-        return NotificationResponse.builder().body(notification.toString()).status(HttpStatus.ACCEPTED).build();
+        return NotificationResponse.builder().body(notification).status(HttpStatus.ACCEPTED).build();
     }
 
     // Construct the request body using Notification object

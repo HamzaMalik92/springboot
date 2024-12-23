@@ -23,24 +23,25 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @PostMapping("all")
-    public ResponseEntity<String> toAll(@Valid @RequestBody Notification notification, HttpSession session) {
+    public ResponseEntity<NotificationResponse> toAll(@Valid @RequestBody Notification notification, HttpSession session) {
         logger.info("Sending notification to all: {}", notification);
         NotificationResponse notificationResponse = notificationService.sendToAll(notification);
-        return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
+        return new ResponseEntity<>(notificationResponse, notificationResponse.status());
     }
 
     @PostMapping("one/{uid}")
-    public ResponseEntity<String> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification, HttpSession session) {
+    public ResponseEntity<NotificationResponse> toOne(@PathVariable String uid, @Valid @RequestBody Notification notification, HttpSession session) {
         logger.info("Sending notification to user {}: {}", uid, notification);
         NotificationResponse notificationResponse = notificationService.sendToOne(uid, notification);
-        return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
+        return new ResponseEntity<>(notificationResponse, notificationResponse.status());
     }
 
     // Test API - Now delegates to the service layer
-    @PostMapping("test/all")
-    public ResponseEntity<String> toTestAll(@Valid @RequestBody Notification notification, HttpSession session) {
+    @PostMapping(value = "test/all" ,produces = { MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE })
+    public ResponseEntity<NotificationResponse> toTestAll(@Valid @RequestBody Notification notification, HttpSession session) {
         logger.warn("Testing notification for all: {}", notification);
         NotificationResponse notificationResponse = notificationService.testNotification(notification);
-        return new ResponseEntity<>(notificationResponse.body(), notificationResponse.status());
+        return new ResponseEntity<>(notificationResponse, notificationResponse.status());
     }
 }
